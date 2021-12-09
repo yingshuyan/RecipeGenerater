@@ -1,10 +1,4 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import { Button } from '@mui/material';
 
 import './App.css';
@@ -22,23 +16,35 @@ const App = (props)=>{
 
     const [ingreObj, setIngreObj] = useState(iniState);
     const [recName, setRecName] = useState("")
+    const [recipe,setRecipe] = useState("")
+    const [clear,setClear] = useState(false)
     const addToReci =(ingreList)=>{
         let newObj = Object.assign({},ingreObj,{[ingreList.cate]:ingreList.list})
         setIngreObj(newObj)
     }
     const {meat,veg,carb,cooking,flavor} = ingreObj
     
+    const handleSubmit = ()=> {
+      
+      let meatChoice = meat.length===2?`${meat[0]} & ${meat[1]}`:meat[0]
+      setRecName(`Recipe for ${flavor} ${cooking}ed ${meatChoice} with ${veg} and ${carb}`)
+      setRecipe(`
+      1. Heat the pan
+      2. Add oil
+      3. Add {meat}
+      4. Add {veg}`)
   
+    }
     return (
       <div>
         <h1>Select Your Ingredients to generate a recipe</h1>
       <div className = "flex">
 
-      <Meat addToReci={addToReci}/>
-      <Veg addToReci={addToReci}/>
-      <Cooking addToReci={addToReci}/>
-      <Carb addToReci={addToReci}/>
-      <Flavor addToReci={addToReci}/>
+      <Meat addToReci={addToReci} clear = {clear}/>
+      <Veg addToReci={addToReci} clear = {clear}/>
+      <Cooking addToReci={addToReci} clear = {clear}/>
+      <Carb addToReci={addToReci} clear = {clear}/>
+      <Flavor addToReci={addToReci} clear = {clear}/>
       </div>
 
       <div className = "flex1">
@@ -65,23 +71,19 @@ const App = (props)=>{
         </ul>
 
       </div>
-    <div className="flexButton">
-       <Button variant="contained" onClick={()=>{
-        let meatChoice = meat.length===2?`${meat[0]} & ${meat[1]}`:meat[0]
-         setRecName(`Recipe for ${flavor} ${cooking}ed ${meatChoice} with ${veg[0]} and ${carb}`)
-       }} size="large">Generate Recipe</Button>
+        <div className="flexButton">
+       <Button variant="contained" onClick={handleSubmit} size="large">Generate Recipe</Button>
        <Button variant="contained" color = "warning" size="large" onClick = {()=> {
         setRecName("")
         setIngreObj(iniState)
-
-
+        setRecipe("")
+        setClear(true)
        }}>Clear All</Button>
-    </div>
-
-    <p>
-    {recName}
-    </p>
-
+        </div>
+    <div>
+      <p>{recName}</p>
+      <p>{recipe}</p>
+    </div>  
       </div>
     );
 

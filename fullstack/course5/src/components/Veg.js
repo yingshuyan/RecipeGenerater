@@ -5,11 +5,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import {useState} from "react"
+import {useState,useEffect} from "react"
 
 const veg = [{name:"broccoli"},{name:"greenpepper"},{name:"mushroom"}];
 
-const Veg = ({addToReci})=> {
+const Veg = ({addToReci,clear})=> {
   const [ingreList, setIngreList] = useState([]);
     const handleToggle = (value) => () => {
       const currentIndex = ingreList.indexOf(value);
@@ -23,6 +23,14 @@ const Veg = ({addToReci})=> {
       setIngreList(newIngreList);
       addToReci({cate:"veg",list:newIngreList})
     };
+
+    useEffect(()=>{
+      if(clear===true) {
+        setIngreList([]);
+        addToReci({cate:"veg",list:[]})
+      }
+    
+    },[clear])
 
     return (<List>
     <label>Vegetable</label>
