@@ -6,11 +6,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
-import {useState} from "react"
+import {useState,useEffect} from "react"
 
 const carb = [{name:"rice"},{name:"noodle"}];
 
-const Carb = ({addToReci})=> {
+const Carb = ({addToReci,clear})=> {
   const [ingreList, setIngreList] = useState([]);
 
   const handleToggle = (value) => () => {
@@ -25,6 +25,14 @@ const Carb = ({addToReci})=> {
     setIngreList(newIngreList);
     addToReci({cate:"carb",list:newIngreList})
   };
+
+  useEffect(()=>{
+    if(clear===true) {
+      setIngreList([]);
+      addToReci({cate:"meat",list:[]})
+    }
+  
+  },[clear])
   return (<List>
   <label>Carb</label>
     {carb.map(({name:value},ind) => {

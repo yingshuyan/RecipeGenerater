@@ -6,11 +6,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
-import {useState} from "react"
+import {useState,useEffect} from "react"
 
 const flavor = [{name:"spicy"},{name:"non-spicy"}];
 
-const Flavor = ({addToReci})=> {
+const Flavor = ({addToReci,clear})=> {
   const [ingreList, setIngreList] = useState([]);
     const handleToggle = (value) => () => {
       const currentIndex = ingreList.indexOf(value);
@@ -24,6 +24,14 @@ const Flavor = ({addToReci})=> {
       setIngreList(newIngreList);
       addToReci({cate:"flavor",list:newIngreList})
     };
+
+    useEffect(()=>{
+      if(clear===true) {
+        setIngreList([]);
+        addToReci({cate:"meat",list:[]})
+      }
+    
+    },[clear])
     return (<List>
     <label>Flavor</label>
       {flavor.map(({name:value},ind) => {

@@ -7,11 +7,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
 
-import {useState} from "react"
+import {useState,useEffect} from "react"
 
 const meat = [{name:"chicken"},{name:"beef"},{name:"pork"},{name:"shrimp"},{name:"egg"},{name:"toufu"}];
 
-const Meat = ({addToReci})=> {
+const Meat = ({addToReci,clear})=> {
   const [ingreList, setIngreList] = useState([]);
 
     const handleToggle = (value) => () => {
@@ -28,6 +28,13 @@ const Meat = ({addToReci})=> {
       setIngreList(newIngreList);
       addToReci({cate:"meat",list:newIngreList})
     };
+useEffect(()=>{
+  if(clear===true) {
+    setIngreList([]);
+    addToReci({cate:"meat",list:[]})
+  }
+
+},[clear])
 
     return (<List > 
       
